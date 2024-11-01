@@ -8,6 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Group12_iCAREAPP.Models;
+using Microsoft.Ajax.Utilities;
 
 namespace Group12_iCAREAPP.Controllers
 {
@@ -16,9 +17,24 @@ namespace Group12_iCAREAPP.Controllers
         private Group12_iCAREDBEntities db = new Group12_iCAREDBEntities();
 
         // GET: PatientRecords
-        public ActionResult Index()
+        /*public ActionResult Index()
         {
             var patientRecord = db.PatientRecord.Include(p => p.GeoCodes).Include(p => p.iCAREWorker);
+            return View(patientRecord.ToList());
+        }*/
+
+        // GET: PatientRecords
+        public ActionResult Index(string GeoUnitID)
+        {
+            ViewBag.GeoUnitID = new SelectList(db.GeoCodes.OrderBy(b => b.description), "ID", "description");
+
+            var patientRecord = db.PatientRecord.Include(p => p.GeoCodes).AsQueryable().Include(p => p.iCAREWorker);
+
+            if (!GeoUnitID.IsNullOrWhiteSpace())
+            {
+                patientRecord = patientRecord.Where(p => p.geoUnitID == GeoUnitID);
+            }
+
             return View(patientRecord.ToList());
         }
 
@@ -41,7 +57,7 @@ namespace Group12_iCAREAPP.Controllers
         public ActionResult Create()
         {
             ViewBag.geoUnitID = new SelectList(db.GeoCodes, "ID", "description");
-            ViewBag.maintainWorkerID = new SelectList(db.iCAREWorker, "ID", "profession");
+            ViewBag.maintainWorkerID = new SelectList(db.iCAREWorker, "ID", "ID");
             return View();
         }
 
@@ -60,7 +76,7 @@ namespace Group12_iCAREAPP.Controllers
             }
 
             ViewBag.geoUnitID = new SelectList(db.GeoCodes, "ID", "description", patientRecord.geoUnitID);
-            ViewBag.maintainWorkerID = new SelectList(db.iCAREWorker, "ID", "profession", patientRecord.maintainWorkerID);
+            ViewBag.maintainWorkerID = new SelectList(db.iCAREWorker, "ID", "ID", patientRecord.maintainWorkerID);
             return View(patientRecord);
         }
 
@@ -77,7 +93,7 @@ namespace Group12_iCAREAPP.Controllers
                 return HttpNotFound();
             }
             ViewBag.geoUnitID = new SelectList(db.GeoCodes, "ID", "description", patientRecord.geoUnitID);
-            ViewBag.maintainWorkerID = new SelectList(db.iCAREWorker, "ID", "profession", patientRecord.maintainWorkerID);
+            ViewBag.maintainWorkerID = new SelectList(db.iCAREWorker, "ID", "ID", patientRecord.maintainWorkerID);
             return View(patientRecord);
         }
 
@@ -95,7 +111,7 @@ namespace Group12_iCAREAPP.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.geoUnitID = new SelectList(db.GeoCodes, "ID", "description", patientRecord.geoUnitID);
-            ViewBag.maintainWorkerID = new SelectList(db.iCAREWorker, "ID", "profession", patientRecord.maintainWorkerID);
+            ViewBag.maintainWorkerID = new SelectList(db.iCAREWorker, "ID", "ID", patientRecord.maintainWorkerID);
             return View(patientRecord);
         }
 

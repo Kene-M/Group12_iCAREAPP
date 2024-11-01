@@ -165,12 +165,12 @@ namespace Group12_iCAREAPP.Controllers
 
 
             // Assume db is your database context
-            ViewBag.DrugOptions = db.DrugsDictionary
+            /*ViewBag.DrugOptions = db.DrugsDictionary
                 .Select(d => new SelectListItem
                 {
                     Value = d.ID.ToString(), // store drug ID as Value
                     Text = d.name             // display drug name as Text
-                }).ToList();
+                }).ToList();*/
 
 
             ViewBag.drugUsedID = new SelectList(db.DrugsDictionary, "ID", "name", document.drugUsedID);
@@ -245,12 +245,12 @@ namespace Group12_iCAREAPP.Controllers
 
 
             // Repopulate the options if the model is invalid
-            ViewBag.DrugOptions = db.DrugsDictionary
+            /*ViewBag.DrugOptions = db.DrugsDictionary
                 .Select(d => new SelectListItem
                 {
                     Value = d.ID.ToString(),
                     Text = d.name
-                }).ToList();
+                }).ToList();*/
 
 
             ViewBag.drugUsedID = new SelectList(db.DrugsDictionary, "ID", "name", document.drugUsedID);
@@ -293,16 +293,6 @@ namespace Group12_iCAREAPP.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
-        }
-
-        public JsonResult GetDrugNames(string term)
-        {
-            var drugNames = db.DrugsDictionary
-                              .Where(d => d.name.Contains(term)) // Adjust the property as necessary
-                              .Select(d => new { d.ID, d.name })
-                              .ToList();
-
-            return Json(drugNames, JsonRequestBehavior.AllowGet);
         }
     }
 }

@@ -10,7 +10,26 @@
 
 
 @* <h2>Index</h2> *@
-<h2>iCARE Board</h2>
+
+
+<div class="text-center" style="margin-bottom:20px">
+    <h2>iCAREBoard</h2>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="col-12 col-md-8 col-lg-6 mx-auto">
+            @using (Html.BeginForm("Index", "PatientRecords", FormMethod.Get, new { @class = "text-center" }))
+            {
+                <div class="form-group" style="margin-top: 50px;">
+                    @Html.DropDownList("GeoUnitID", (SelectList)ViewBag.GeoUnitID, "All Locations", new { @class = "form-control mb-2 mr-sm-2" })
+                    <input type="submit" name="action" value="Filter" class="btn btn-outline-dark btn mb-2" />
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -42,11 +61,12 @@
             @Html.DisplayNameFor(model => model.treatmentArea)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.GeoCodes.description)
+            @*@Html.DisplayNameFor(model => model.GeoCodes.description)*@
+            Geo Unit
         </th>
         <th>
             @* @Html.DisplayNameFor(model => model.iCAREWorker.profession) *@
-            Creator ID
+            Maintaining WorkerID
         </th>
         <th></th>
     </tr>

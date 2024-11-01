@@ -80,7 +80,8 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.GeoCodes.description)
+            @*@Html.DisplayNameFor(model => model.GeoCodes.description)*@
+            Geo Unit
         </dt>
 
         <dd>
@@ -88,11 +89,13 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.iCAREWorker.profession)
+            @*@Html.DisplayNameFor(model => model.iCAREWorker.profession)*@
+            Maintaining WorkerID
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.iCAREWorker.profession)
+            @*@Html.DisplayFor(model => model.iCAREWorker.profession)*@
+            @Html.DisplayFor(model => model.iCAREWorker.ID)
         </dd>
 
     </dl>
