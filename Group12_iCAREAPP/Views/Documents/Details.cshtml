@@ -1,0 +1,113 @@
+﻿@model Group12_iCAREAPP.Models.Document
+
+@{
+    ViewBag.Title = "Details";
+}
+
+@{
+    Layout = "~/Views/Shared/WorkerLayout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Document</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.docName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.docName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.docData)
+        </dt>
+
+        @* <dd>
+            @Html.DisplayFor(model => model.docData)
+        </dd>*@
+
+        @if (Model.docData != null) // Ensure there is document data
+        {
+            <div>
+                <label>View Document:</label>
+                <a href="@Url.Action("Display", "Documents", new { id = Model.ID })" class="btn btn-info">
+                    View Document
+                </a>
+            </div>
+        }
+        else
+        {
+            <dd>No file available</dd>
+        }
+
+        <dt>
+            @Html.DisplayNameFor(model => model.docType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.docType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.dateOfCreation)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.dateOfCreation)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.treatmentDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.treatmentDescription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.prescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.prescription)
+        </dd>
+
+        <dt>
+            @* @Html.DisplayNameFor(model => model.DrugsDictionary.name) *@
+            Drug Name
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DrugsDictionary.name)
+        </dd>
+
+        <dt>
+            @* @Html.DisplayNameFor(model => model.PatientRecord.name) *@
+            Associated Patient ID
+        </dt>
+
+        <dd>
+            @* @Html.DisplayFor(model => model.PatientRecord.name) *@
+            @Html.DisplayFor(model => model.PatientRecord.ID)
+        </dd>
+
+        <dt>
+            @* @Html.DisplayNameFor(model => model.iCAREWorker.profession) *@
+            Worker ID
+        </dt>
+
+        <dd>
+            @* @Html.DisplayFor(model => model.iCAREWorker.profession) *@
+            @Html.DisplayFor(model => model.iCAREWorker.ID)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

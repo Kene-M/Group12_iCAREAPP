@@ -1,0 +1,119 @@
+﻿@model IEnumerable<Group12_iCAREAPP.Models.Document>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@{
+    Layout = "~/Views/Shared/WorkerLayout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.docName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.docData)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.docType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.dateOfCreation)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.treatmentDescription)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.prescription)
+        </th>
+        <th>
+            @* @Html.DisplayNameFor(model => model.DrugsDictionary.name) *@
+            Drug Name
+        </th>
+        <th>
+            @* @Html.DisplayNameFor(model => model.PatientRecord.name) *@
+            Associated Patient ID
+        </th>
+        <th>
+            @* @Html.DisplayNameFor(model => model.iCAREWorker.profession) *@
+            Worker ID
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.docName)
+            </td>
+            @* 
+             <td>
+                @Html.DisplayFor(modelItem => item.docData)
+            </td>*@
+            @*<td>
+                @if (item.docData != null)
+                {
+                    if (item.docType == "image")
+                    {
+                        <img src="@Url.Action("Display", "Documents", new { id = item.ID })" alt="Document Image" width="100" height="100" />
+                    }
+                    else if (item.docType == "document")
+                    {
+                        <a href="@Url.Action("Display", "Documents", new { id = item.ID })" target="_blank">View Document</a>
+                    }
+                }
+                else
+                {
+                    <span>No file available</span>
+                }
+            </td> *@
+            <td>
+                @if (item.docData != null)
+                {
+                    <a href="@Url.Action("Display", "Documents", new { id = item.ID })" target="_blank">View Document</a>
+                }
+                else
+                {
+                    <span>No file available</span>
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.docType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.dateOfCreation)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.treatmentDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.prescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DrugsDictionary.name)
+            </td>
+            <td>
+                @* @Html.DisplayFor(modelItem => item.PatientRecord.name) *@
+                @Html.DisplayFor(modelItem => item.PatientRecord.ID) 
+            </td>
+            <td>
+                @* @Html.DisplayFor(modelItem => item.iCAREWorker.profession) *@
+                @Html.DisplayFor(modelItem => item.iCAREWorker.ID)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+            </td>
+        </tr>
+    }
+
+</table>

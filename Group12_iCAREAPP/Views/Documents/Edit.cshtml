@@ -1,0 +1,142 @@
+﻿@model Group12_iCAREAPP.Models.Document
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+@{
+    Layout = "~/Views/Shared/WorkerLayout.cshtml";
+}
+
+<h2>Edit Document</h2>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+
+    @*@using (Html.BeginForm())
+        {*@
+
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Document</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.ID)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.docName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.docName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.docName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @*
+            <div class="form-group">
+                @Html.LabelFor(model => model.docData, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.docData, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.docData, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        *@
+
+        <!-- Existing Document Link -->
+        @if (Model.docData != null)
+        {
+            <div class="form-group">
+                <label class="control-label col-md-2">Current Document</label>
+                <div class="col-md-10">
+                    <a href="@Url.Action("Display", "Documents", new { id = Model.ID })" target="_blank">View Current Document</a>
+                </div>
+            </div>
+        }
+        <!-- New Document Upload -->
+        <div class="form-group">
+            <label for="docFile" class="control-label col-md-2">Upload New Document</label>
+            <div class="col-md-10">
+                <input type="file" name="docFile" class="form-control" />
+            </div>
+        </div>
+
+        @* <div class="form-group">
+                @Html.LabelFor(model => model.docType, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.docType, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.docType, "", new { @class = "text-danger" })
+                </div>
+            </div> *@
+        <div class="form-group">
+            @Html.LabelFor(model => model.docType, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.docType, new SelectList(new[] { "document", "image" }), new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.docType, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.dateOfCreation, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.dateOfCreation, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.dateOfCreation, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+                <!-- @Html.LabelFor(model => model.drugUsedID, "drugUsedID", htmlAttributes: new { @class = "control-label col-md-2" }) -->
+                @Html.LabelFor(model => model.drugUsedID, "Drug Name", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("drugUsedID", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.drugUsedID, "", new { @class = "text-danger" })
+                </div>
+            </div> 
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.patientID, "patientID", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("patientID", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.patientID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.treatmentDescription, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.treatmentDescription, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.treatmentDescription, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.prescription, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.prescription, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.prescription, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.workerID, "workerID", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("workerID", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.workerID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }

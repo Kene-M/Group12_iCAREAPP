@@ -1,0 +1,143 @@
+﻿@{
+    ViewBag.Title = "Login";
+}
+
+<style>
+    .custom-button {
+        background-color: rgb(230, 246, 247);
+        border: none;
+        padding: 8px 25px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+        border-radius: 4px;
+        transition-duration: 0.4s;
+        margin-top: 20px;
+    }
+
+        .custom-button:hover {
+            background-color: rgb(184, 218, 219);
+        }
+</style>
+
+@using (Html.BeginForm("Login", "Home", FormMethod.Post))
+{
+    <fieldset>
+        <legend>Log In</legend>
+
+        <!-- <p>* Logging in for Administrator? @Html.ActionLink("Click Here", "LoginAdmin", "iCAREAdmins") *</p> -->
+
+        <hr />
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+
+        @if (ViewBag.Message != null)
+        {
+            <p style="border: 1px solid red">
+                @ViewBag.Message
+            </p>
+        }
+
+        <div class="form-group">
+            <p>User ID</p>
+            <div class="col-md-10">
+                <input type="text" name="UserID" class="form-control" />
+                @Html.ValidationMessage("UserID", "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <p>Password</p>
+            <div class="col-md-10">
+                <input type="password" name="Password" class="form-control" />
+                @Html.ValidationMessage("Password", "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Login" class="custom-button" />
+                </div>
+            </div>
+        </div>
+    </fieldset>
+}
+
+
+
+<!--
+@model Group12_iCAREAPP.Models.UserPassword
+
+@{
+    ViewBag.Title = "Login";
+}
+
+<style>
+    .custom-button {
+        background-color: rgb(230, 246, 247);
+        border: none;
+        padding: 8px 25px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+        border-radius: 4px;
+        transition-duration: 0.4s;
+        margin-top: 20px;
+    }
+
+        .custom-button:hover {
+            background-color: rgb(184, 218, 219);
+        }
+</style>
+
+
+@using (Html.BeginForm("Login", "Home", FormMethod.Post))
+{
+    <fieldset>
+        <legend>Log In</legend>
+
+        <p> * Loging in for Administrator?  @Html.ActionLink("Click Here", "LoginAdmin", "iCAREAdmins") * </p>
+
+
+
+        <hr />
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+
+        @if (ViewBag.Message != null)
+        {
+            <p style="border: 1px solid red">
+                @ViewBag.Message
+            </p>
+        }
+
+        <div class="form-group">
+            <p>User ID</p>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ID, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <p>Password</p>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.password, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.password, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Login" class="custom-button" />
+                </div>
+            </div>
+        </div>
+    </fieldset>
+}
+
+    -->
