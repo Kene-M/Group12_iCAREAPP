@@ -156,9 +156,11 @@
     <Compile Include="Models\iCAREAdmin.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\iCAREAdminViewModel.cs" />
     <Compile Include="Models\iCAREUser.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\iCAREUserViewModel.cs" />
     <Compile Include="Models\iCAREWorker.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

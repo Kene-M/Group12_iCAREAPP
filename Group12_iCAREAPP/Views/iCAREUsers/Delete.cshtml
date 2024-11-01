@@ -1,4 +1,5 @@
-﻿@model Group12_iCAREAPP.Models.iCAREUser
+﻿@* **** NEW ***** *@
+@model Group12_iCAREAPP.Models.iCAREUser
 
 @{
     ViewBag.Title = "Delete";
@@ -20,11 +21,11 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.iCAREAdmin.ID)
+            CreatorID
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.iCAREAdmin.ID)
+            @Html.DisplayFor(model => model.iCAREWorker.creatorID)
         </dd>
 
         <dt>
@@ -45,7 +46,8 @@
 
     </dl>
 
-    @using (Html.BeginForm()) {
+    @using (Html.BeginForm())
+    {
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
@@ -54,3 +56,63 @@
         </div>
     }
 </div>
+
+
+
+@* **** OLD **** *@
+@*@model Group12_iCAREAPP.Models.iCAREUser
+
+    @{
+        ViewBag.Title = "Delete";
+    }
+
+    <h2>Delete</h2>
+
+    <h3>Are you sure you want to delete this?</h3>
+    <div>
+        <h4>iCAREUser</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.name)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.name)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.iCAREAdmin.ID)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.iCAREAdmin.ID)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.UserPassword.password)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.UserPassword.password)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.iCAREWorker.profession)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.iCAREWorker.profession)
+            </dd>
+
+        </dl>
+
+        @using (Html.BeginForm()) {
+            @Html.AntiForgeryToken()
+
+            <div class="form-actions no-color">
+                <input type="submit" value="Delete" class="btn btn-default" /> |
+                @Html.ActionLink("Back to List", "Index")
+            </div>
+        }
+    </div>*@

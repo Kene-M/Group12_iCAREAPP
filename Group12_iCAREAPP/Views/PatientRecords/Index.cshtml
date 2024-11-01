@@ -22,8 +22,8 @@
             @using (Html.BeginForm("Index", "PatientRecords", FormMethod.Get, new { @class = "text-center" }))
             {
                 <div class="form-group" style="margin-top: 50px;">
-                    @Html.DropDownList("GeoUnitID", (SelectList)ViewBag.GeoUnitID, "All Locations", new { @class = "form-control mb-2 mr-sm-2" })
-                    <input type="submit" name="action" value="Filter" class="btn btn-outline-dark btn mb-2" />
+                    @Html.DropDownList("GeoUnitID", (SelectList)ViewBag.geoUnitIDSorted, "All Locations", new { @class = "form-control mb-2 mr-sm-2" })
+                    <iput type="submit" name="action" value="Filter" class="btn btn-outline-dark btn mb-2" />
                 </div>
             }
         </div>

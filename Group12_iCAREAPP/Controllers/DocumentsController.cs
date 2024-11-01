@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Xml.Linq;
 using Group12_iCAREAPP.Models;
+using Microsoft.Ajax.Utilities;
 
 namespace Group12_iCAREAPP.Controllers
 {
@@ -17,9 +18,28 @@ namespace Group12_iCAREAPP.Controllers
         private Group12_iCAREDBEntities db = new Group12_iCAREDBEntities();
 
         // GET: Documents
-        public ActionResult Index()
+        /*public ActionResult Index()
         {
             var document = db.Document.Include(d => d.DrugsDictionary).Include(d => d.PatientRecord).Include(d => d.iCAREWorker);
+            return View(document.ToList());
+        }*/
+
+        public ActionResult Index(string WorkerID, string PatientID)
+        {
+            ViewBag.workerIDSorted = new SelectList(db.iCAREWorker.OrderBy(b => b.ID), "ID", "ID");
+            ViewBag.patientIDSorted = new SelectList(db.PatientRecord.OrderBy(b => b.ID), "ID", "ID");
+
+            var document = db.Document.Include(d => d.PatientRecord).AsQueryable().Include(d => d.iCAREWorker).AsQueryable().Include(d => d.DrugsDictionary);
+
+            if (!WorkerID.IsNullOrWhiteSpace())
+            {
+                document = document.Where(d => d.workerID == WorkerID);
+            }
+            if (!PatientID.IsNullOrWhiteSpace())
+            {
+                document = document.Where(d => d.patientID == PatientID);
+            }
+            
             return View(document.ToList());
         }
 

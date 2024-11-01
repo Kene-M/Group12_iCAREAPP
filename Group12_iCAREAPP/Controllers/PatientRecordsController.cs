@@ -26,7 +26,7 @@ namespace Group12_iCAREAPP.Controllers
         // GET: PatientRecords
         public ActionResult Index(string GeoUnitID)
         {
-            ViewBag.GeoUnitID = new SelectList(db.GeoCodes.OrderBy(b => b.description), "ID", "description");
+            ViewBag.geoUnitIDSorted = new SelectList(db.GeoCodes.OrderBy(b => b.description), "ID", "description");
 
             var patientRecord = db.PatientRecord.Include(p => p.GeoCodes).AsQueryable().Include(p => p.iCAREWorker);
 
