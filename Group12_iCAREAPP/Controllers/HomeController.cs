@@ -89,6 +89,7 @@ namespace Group12_iCAREAPP.Controllers
                             }
                             else if (isWorker)
                             {
+                                Session["UserRole"] = user.iCAREWorker.roleID;
                                 return RedirectToAction("Index", "PatientRecords");
                             }
                         }

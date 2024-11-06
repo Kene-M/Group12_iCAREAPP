@@ -11,56 +11,85 @@
 @* <h2>Index</h2> *@
 <h2>My Board</h2>
 
-<p>
+@*<p>
     @Html.ActionLink("Create New", "Create")
-</p>
+</p>*@
 <table class="table">
     <tr>
-        <th>
-            @* @Html.DisplayNameFor(model => model.ID) *@
+        @*<th>
+             @Html.DisplayNameFor(model => model.ID)
             Treatment ID
-        </th>
+            </th>*@
         <th>
-            @Html.DisplayNameFor(model => model.PatientRecord.name)
+            @*@Html.DisplayNameFor(model => model.PatientRecord.name)*@
+            Patient Name
         </th>
-        <th>
-            @* @Html.DisplayNameFor(model => model.iCAREWorker.profession) *@
+        @*<th>
+             @Html.DisplayNameFor(model => model.iCAREWorker.profession)
             Worker ID
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.description)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.treatmentDate)
-        </th>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.treatmentDate)
+            </th>*@
+
+        <th> Patient ID </th>
 
         <th></th>
     </tr>
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PatientRecord.name)
-            </td>
-            <td>
-                @* @Html.DisplayFor(modelItem => item.iCAREWorker.profession) *@
-                @Html.DisplayFor(modelItem => item.iCAREWorker.ID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.treatmentDate)
-            </td>
-
-            <td>
+    @* @foreach (var item in Model)
+        {
+            <tr>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.ID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PatientRecord.name)
+                    </td>
+                    <td>
+                            @Html.DisplayFor(modelItem => item.iCAREWorker.profession)
+                        @Html.DisplayFor(modelItem => item.iCAREWorker.ID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.treatmentDate)
+                    </td>
+                    <td>
                 @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
                 @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
                 @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                    </td>
+            </tr>
+        } *@
+
+    @*@{
+            // Get distinct Patient IDs that match the User ID filter
+            var patientIds = Model.Select(t => t.patientID).Distinct();
+        }*@
+
+    @{
+        // Group by Patient ID to get distinct patient records
+        var distinctPatients = Model
+            .Where(t => t.PatientRecord != null)
+            .GroupBy(t => t.PatientRecord.ID)
+            .Select(g => g.First().PatientRecord);  // Select the first unique PatientRecord for each ID
+    }
+
+    @foreach (var distinctPatient in distinctPatients)
+    {
+        <tr>
+            <td>@distinctPatient.name</td>
+            <td>
+                @distinctPatient.ID
+            </td>
+            <td>
+                @Html.ActionLink("Patient Record", "FilteredPatientIndex", new { id = distinctPatient.ID }) |
+                @Html.ActionLink("Treatment Records", "FilteredTreatmentsIndex", new { id = distinctPatient.ID })
             </td>
         </tr>
     }

@@ -1,0 +1,63 @@
+﻿@model IEnumerable<Group12_iCAREAPP.Models.TreatmentRecord>
+
+@{
+    ViewBag.Title = "FilteredTreatmentsIndex";
+}
+
+@{
+    Layout = "~/Views/Shared/WorkerLayout.cshtml";
+}
+
+@* <h2>Index</h2> *@
+<h2>Treatment Records</h2>
+
+@*<p>
+        @Html.ActionLink("Create New", "Create")
+    </p>*@
+<table class="table">
+    <tr>
+        <th>
+         Treatment ID
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PatientRecord.name)
+        </th>
+        <th>
+        Worker ID
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.treatmentDate)
+        </th>
+
+        <th></th>
+    </tr>
+
+     @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                        @Html.DisplayFor(modelItem => item.ID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PatientRecord.name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.iCAREWorker.ID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.treatmentDate)
+                    </td>
+                    <td>
+                @Html.ActionLink("Edit", "Edit", new { workerID=item.workerID, patientID=item.patientID }) |
+                @Html.ActionLink("Details", "Details", new { workerID = item.workerID, patientID = item.patientID }) |
+                @Html.ActionLink("Delete", "Delete", new { workerID = item.workerID, patientID = item.patientID })
+                    </td>
+            </tr>
+        }
+</table>

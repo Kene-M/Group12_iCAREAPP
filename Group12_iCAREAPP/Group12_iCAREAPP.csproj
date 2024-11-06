@@ -326,6 +326,8 @@
     <Content Include="Views\PatientRecords\ListAssignedPatients.cshtml" />
     <Content Include="Views\Shared\AdminLayout.cshtml" />
     <Content Include="Views\Shared\WorkerLayout.cshtml" />
+    <Content Include="Views\PatientRecords\FilteredPatientIndex.cshtml" />
+    <Content Include="Views\TreatmentRecords\FilteredTreatmentsIndex.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

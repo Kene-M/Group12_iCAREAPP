@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Group12_iCAREAPP.Models.PatientRecord>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "FilteredPatientIndex";
 }
 
 @{
@@ -16,24 +16,6 @@
     <h2>iCAREBoard</h2>
 </div>
 
-<div class="row justify-content-center">
-    <div class="col-md-6">
-        <div class="col-12 col-md-8 col-lg-6 mx-auto">
-            @using (Html.BeginForm("Index", "PatientRecords", FormMethod.Get, new { @class = "text-center" }))
-            {
-                <div class="form-group" style="margin-top: 50px;">
-                    @Html.DropDownList("GeoUnitID", (SelectList)ViewBag.geoUnitIDSorted, "All Locations", new { @class = "form-control mb-2 mr-sm-2" })
-                    <input type="submit" name="action" value="Filter" class="btn btn-outline-dark btn mb-2" />
-                </div>
-            }
-        </div>
-    </div>
-</div>
-
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <table class="table">
     <tr>
         <th>
@@ -108,28 +90,9 @@
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
                 @Html.ActionLink("Details", "Details", new { id = item.ID }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.ID }) |
-                @* @Html.ActionLink("Add", "AssignWorkerToPatient", new { id = item.ID }) *@
-                @Html.ActionLink("Assign", "AssignWorkerToPatient", new { patientID = item.ID })
-            </td>
-            <td>
-                <button onclick="assignWorker(@item.ID)">Assign</button>
-
+                @Html.ActionLink("Delete", "Delete", new { id = item.ID }) 
             </td>
         </tr>
     }
 
 </table>
-
-
-<script>
-    function assignWorker(patientID) {
-        $.post('@Url.Action("AssignWorkerToPatient", "PatientRecords")', { patientID: patientID })
-            .done(function(response) {
-                alert("Patient added successfully");
-            })
-            .fail(function() {
-                alert("Error assigning worker.");
-            });
-    }
-</script>

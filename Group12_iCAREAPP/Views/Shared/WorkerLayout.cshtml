@@ -52,7 +52,8 @@
             <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
                 <ul class="navbar-nav flex-grow-1">
                     <li>@Html.ActionLink("iCAREBoard", "Index", "PatientRecords", new { area = "" }, new { @class = "nav-link plain-link" })</li>
-                    <li>@Html.ActionLink("MyBoard", "ListAssignedPatients", "PatientRecords", new { area = "" }, new { @class = "nav-link plain-link" })</li>
+                    @*<li>@Html.ActionLink("MyBoard", "ListAssignedPatients", "PatientRecords", new { area = "" }, new { @class = "nav-link plain-link" })</li>*@
+                    <li>@Html.ActionLink("MyBoard", "Index", "TreatmentRecords", new { area = "" }, new { @class = "nav-link plain-link" })</li>
                     <li>@Html.ActionLink("Palette", "Index", "Documents", new { area = "" }, new { @class = "nav-link plain-link" })</li>
 
                     <!-- <li>@Html.ActionLink("About", "About", "Home", new { area = "" }, new { @class = "nav-link plain-link" })</li> -->

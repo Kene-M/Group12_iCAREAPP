@@ -38,6 +38,21 @@ namespace Group12_iCAREAPP.Controllers
             return View(patientRecord.ToList());
         }
 
+        // Returns a view for
+        public ActionResult FilteredPatientIndex()
+        {
+            // Get the current user's ID from the session
+            var patientId = Session["PatientID"]?.ToString();
+
+            // Fetch the patient record that correspond to the patient ID
+            var patientRecord = db.PatientRecord
+                .Include(t => t.iCAREWorker)
+                .Include(t => t.GeoCodes)
+                .Where(t => t.ID == patientId); // Filter by current session patient ID*/
+
+            return View(patientRecord);
+        }
+
         // GET: PatientRecords/Details/5
         public ActionResult Details(string id)
         {
@@ -150,7 +165,7 @@ namespace Group12_iCAREAPP.Controllers
             base.Dispose(disposing);
         }
 
-        public ActionResult AssignWorkerToPatient(string patientID)
+        /*public ActionResult AssignWorkerToPatient(string patientID)
         {
             // Get the current user's ID, assumed from authentication
             string workerID = Session["UserID"].ToString();
@@ -194,10 +209,205 @@ namespace Group12_iCAREAPP.Controllers
                 System.Diagnostics.Debug.WriteLine("General error: " + ex.Message);
             }
             return RedirectToAction("Index", "PatientRecords");
+        }*/
+
+        /*public ActionResult AssignWorkerToPatient(string patientID)
+        {
+            // Get the current user's ID, assumed from authentication
+            string workerID = Session["UserID"].ToString();
+            string roleID = Session["UserRole"].ToString();
+
+            bool canBeAssigned = false;
+
+
+            //Check for an already existing assignments
+            List<TreatmentRecord> treatments = db.TreatmentRecord
+                                            .Where(p => p.patientID == patientID)
+                                            .ToList();
+            List<TreatmentRecord> assignedNurses = new List<TreatmentRecord>();
+            List<TreatmentRecord> assignedDoctors = new List<TreatmentRecord>();
+
+            foreach (TreatmentRecord item in treatments)
+            {
+                //Doctor list
+                if (item.description.Equals("Assign") && item.iCAREWorker.roleID == "1")
+                {
+                    assignedDoctors.Add(item);
+                }
+                else if (item.description.Equals("Assign") && item.iCAREWorker.roleID == "2")
+                {
+                    assignedNurses.Add(item);
+                }
+            }
+
+            if (roleID.Equals("1"))
+            {
+                //Check for assigned nurse
+                if (assignedDoctors.Count == 0) { canBeAssigned = false; }
+                else if (assignedNurses.Any()) { canBeAssigned = true; }
+
+            }
+            else
+            {
+                //Check for three assigned nurses
+                if (assignedNurses.Count < 3) { canBeAssigned = true; }
+
+            }
+
+            // Retrieve the patient record from the database
+            PatientRecord patient = db.PatientRecord.SingleOrDefault(p => p.ID == patientID);
+            TreatmentRecord treatmentRecord = new TreatmentRecord();
+            try
+            {
+                if (canBeAssigned)
+                {
+                    //Check all assign treatments for current worker id
+
+
+                    // Assign the worker's ID to the maintainWorkerID field
+                    patient.maintainWorkerID = workerID;
+                    db.Entry(patient).State = EntityState.Modified;
+
+                    treatmentRecord.patientID = patientID;
+                    treatmentRecord.iCAREWorker = db.iCAREWorker.Find(workerID);
+                    treatmentRecord.treatmentDate = DateTime.Now;
+                    treatmentRecord.description = "Assign";
+                    treatmentRecord.PatientRecord = patient;
+
+                    db.TreatmentRecord.Add(treatmentRecord);
+
+                    db.SaveChanges();
+                    ViewBag.Message = "Worker ID added";
+                }
+                else
+                {
+                    ViewBag.Message = "Worker failed to be added";
+                }
+            }
+            catch (DbEntityValidationException ex)
+            {
+                // Log each validation error for diagnosis
+                foreach (var validationErrors in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in validationErrors.ValidationErrors)
+                    {
+                        System.Diagnostics.Debug.WriteLine("Property: " + validationError.PropertyName + " Error: " + validationError.ErrorMessage);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("General error: " + ex.Message);
+            }
+            return RedirectToAction("Index", "PatientRecords");
+        }*/
+
+        public ActionResult AssignWorkerToPatient(string patientID)
+        {
+            // Get the current user's ID from the session
+            string workerID = Session["UserID"]?.ToString();
+            string roleID = Session["UserRole"]?.ToString();
+
+            if (string.IsNullOrEmpty(workerID) || string.IsNullOrEmpty(roleID))
+            {
+                ViewBag.Message = "Invalid user session.";
+                return RedirectToAction("Index", "PatientRecords");
+            }
+
+            bool canBeAssigned = false;
+
+            // Retrieve existing treatment records for the patient
+            List<TreatmentRecord> treatments = db.TreatmentRecord
+                .Where(p => p.patientID == patientID)
+                .ToList();
+
+            //List<TreatmentRecord> assignedNurses = treatments
+            //    .Where(t => t.description.Equals("Assign") && t.iCAREWorker.roleID == "2")
+            //    .ToList();
+            List<TreatmentRecord> assignedNurses = treatments
+                .Where(t => t.iCAREWorker.roleID == "2")
+                .ToList();
+
+            //List<TreatmentRecord> assignedDoctors = treatments
+            //    .Where(t => t.description.Equals("Assign") && t.iCAREWorker.roleID == "1")
+            //    .ToList();
+            List<TreatmentRecord> assignedDoctors = treatments
+                .Where(t => t.iCAREWorker.roleID == "1")
+                .ToList();
+
+            // Determine if the worker can be assigned
+            if (roleID.Equals("1")) // If the worker is a doctor
+            {
+                //canBeAssigned = assignedDoctors.Count == 0 && assignedNurses.Any();
+                canBeAssigned = assignedDoctors.Count == 0 && assignedNurses.Any();
+            }
+            else // If the worker is a nurse
+            {
+                //canBeAssigned = assignedNurses.Count < 3;
+                canBeAssigned = assignedNurses.Count < 3;
+            }
+
+            // Retrieve the patient record
+            PatientRecord patient = db.PatientRecord.SingleOrDefault(p => p.ID == patientID);
+            if (patient == null)
+            {
+                ViewBag.Message = "Patient not found.";
+                return RedirectToAction("Index", "PatientRecords");
+            }
+
+            //try
+            //{
+                if (canBeAssigned)
+                {
+                // Update the maintainWorkerID for the patient
+                //patient.maintainWorkerID = workerID;
+                //db.Entry(patient).State = EntityState.Modified;
+
+                // Create and add a new TreatmentRecord
+                TreatmentRecord treatmentRecord = new TreatmentRecord
+                {
+                    ID = patientID + workerID,
+                    patientID = patientID,
+                    iCAREWorker = db.iCAREWorker.Find(workerID),
+                    treatmentDate = DateTime.Now,
+                    description = "Assign",
+                    PatientRecord = patient
+                };
+
+                    db.TreatmentRecord.Add(treatmentRecord);
+
+                    // Save all changes to the database
+                    db.SaveChanges();
+                    ViewBag.Message = "Worker successfully assigned to patient.";
+                }
+                else
+                {
+                    ViewBag.Message = "Worker cannot be assigned to this patient.";
+                }
+            //}
+            //catch (DbEntityValidationException ex)
+            //{
+            //    // Log each validation error for diagnosis
+            //    foreach (var validationErrors in ex.EntityValidationErrors)
+            //    {
+            //        foreach (var validationError in validationErrors.ValidationErrors)
+            //        {
+            //            System.Diagnostics.Debug.WriteLine($"Property: {validationError.PropertyName} Error: {validationError.ErrorMessage}");
+            //        }
+            //    }
+            //    ViewBag.Message = "Validation error occurred while assigning worker.";
+            //}
+            //catch (Exception ex)
+            //{
+            //    System.Diagnostics.Debug.WriteLine($"General error: {ex.Message}");
+            //    ViewBag.Message = "An error occurred while assigning worker.";
+            //}
+
+            return RedirectToAction("Index", "PatientRecords");
         }
 
         //ListAssignedPatients
-        public ActionResult ListAssignedPatients()
+        /*public ActionResult ListAssignedPatients()
         {
             // Get the current user's ID
             string currentUserID = Session["UserID"].ToString();
@@ -208,6 +418,6 @@ namespace Group12_iCAREAPP.Controllers
                                      .ToList();
 
             return View(assignedPatients);
-        }
+        }*/
     }
 }
