@@ -1,9 +1,40 @@
 ﻿@{
     ViewBag.Title = "About";
 }
-<main aria-labelledby="title">
-    <h2 id="title">@ViewBag.Title.</h2>
-    <h3>@ViewBag.Message</h3>
 
-    <p>Use this area to provide additional information.</p>
-</main>
+<h1>About iCARE</h1>
+
+<p>
+    iCARE is a comprehensive healthcare management application designed by <strong>Group 12</strong>: Kene, Isaiah, Sydney, and Cooper. The project was built using the ASP.NET MVC Framework with a SQL Server database, <strong>Group12_iCAREDB</strong>.
+</p>
+
+<p>
+    The application enables healthcare administrators and workers to manage patient data efficiently, ensuring a secure and organized environment for patient care. It includes features such as:
+</p>
+
+<ul>
+    <li>Managing patient records and medical history</li>
+    <li>Role-based assignment of doctors and nurses to patients</li>
+    <li>Document management for storing patient-related files and records</li>
+</ul>
+
+<p>
+    This project was designed with the aim of providing an easy-to-use yet robust system for healthcare providers.
+</p>
+
+<h2>How to Run the Application</h2>
+<p>
+    <ol>
+        <li>Download the database file (<strong>Group12_iCAREDB</strong>).</li>
+        <li>Unblock the file by going to its properties.</li>
+        <li>Restore the database in Microsoft SQL Server Management Studio (SSMS) and establish a connection.</li>
+        <li>Open the project in Visual Studio (ASP.NET MVC).</li>
+        <li>Ensure the configuration file is updated with your server name.</li>
+    </ol>
+</p>
+
+<p>
+    We have created all necessary models, controllers, and views required to run the application.
+</p>
+
+<p><a href="@Url.Action("Contact", "Home")">Contact us</a> if you have any questions.</p>

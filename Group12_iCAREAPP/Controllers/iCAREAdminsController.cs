@@ -18,7 +18,12 @@ namespace Group12_iCAREAPP.Controllers
         // GET: iCAREAdmins
         public ActionResult Index()
         {
-            var iCAREAdmin = db.iCAREAdmin.Include(i => i.iCAREUser);
+            //var iCAREAdmin = db.iCAREAdmin.Include(i => i.iCAREUser);
+
+            // Exclude deleted users with the name "_DELETED_"
+            var iCAREAdmin = db.iCAREAdmin
+                        .Include(i => i.iCAREUser)
+                        .Where(i => i.iCAREUser.name != "_DELETED_"); 
             return View(iCAREAdmin.ToList());
         }
 
@@ -227,7 +232,7 @@ namespace Group12_iCAREAPP.Controllers
                 try
                 {
                     //find the iCAREAdmin
-                    var iCAREAdmin = db.iCAREAdmin.Find(id);
+                    /*var iCAREAdmin = db.iCAREAdmin.Find(id);
                     if (iCAREAdmin == null)
                     {
                         return HttpNotFound();
@@ -251,7 +256,15 @@ namespace Group12_iCAREAPP.Controllers
                     db.iCAREUser.Remove(iCAREUser);
 
                     //remove the iCAREAdmin
-                    db.iCAREAdmin.Remove(iCAREAdmin);
+                    db.iCAREAdmin.Remove(iCAREAdmin);*/
+
+
+                    // Shadow delete the worker by changing their name.
+                    //find the iCAREUser
+                    iCAREUser iCAREUser = db.iCAREUser.Find(id);
+                    iCAREUser.name = "_DELETED_";  // Mark as deleted
+                    db.Entry(iCAREUser).State = EntityState.Modified;
+
 
                     //save changes
                     db.SaveChanges();

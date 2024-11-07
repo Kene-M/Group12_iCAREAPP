@@ -18,9 +18,15 @@ namespace Group12_iCAREAPP.Controllers
         // GET: iCAREUsers
         public ActionResult Index()
         {
-            var users = db.iCAREUser
+            /* var users = db.iCAREUser
                           .Where(u => !db.iCAREAdmin.Any(a => a.ID == u.ID))
-                          .ToList();
+                          .ToList();*/
+
+            // Retrieve the WORKER users that have not been deleted from iCARE.
+            var users = db.iCAREUser
+                              .Where(u => !db.iCAREAdmin.Any(a => a.ID == u.ID) && u.name != "_DELETED_")
+                              .ToList();
+
             return View(users);
         }
 
@@ -43,7 +49,11 @@ namespace Group12_iCAREAPP.Controllers
         // GET: iCAREUsers/Create
         public ActionResult Create()
         {
-            ViewBag.creatorID = new SelectList(db.iCAREAdmin, "ID", "ID");
+            //ViewBag.creatorID = new SelectList(db.iCAREAdmin, "ID", "ID");
+            ViewBag.creatorID = new SelectList(db.iCAREAdmin
+                                    .Where(a => a.iCAREUser.name != "_DELETED_"),
+                                    "ID", "ID");
+
             //ViewBag.roleID = new SelectList(db.iCAREWorker, "ID", "profession");
             ViewBag.roleID = new SelectList(db.UserRole
     .Where(b => b.roleName != "admin")
@@ -117,7 +127,8 @@ namespace Group12_iCAREAPP.Controllers
                 }
             }
 
-            ViewBag.creatorID = new SelectList(db.iCAREAdmin, "ID", "ID", viewModel.creatorID);
+            //ViewBag.creatorID = new SelectList(db.iCAREAdmin, "ID", "ID", viewModel.creatorID);
+            ViewBag.creatorID = new SelectList(db.iCAREAdmin.Where(a => a.iCAREUser.name != "_DELETED_"),"ID", "ID", viewModel.creatorID);
             //ViewBag.roleID = new SelectList(db.iCAREWorker, "ID", "profession", viewModel.roleID);
             ViewBag.roleID = new SelectList(db.UserRole
     .Where(b => b.roleName != "admin")
@@ -159,7 +170,8 @@ namespace Group12_iCAREAPP.Controllers
             // Get distinct roles
             var distinctRoles = db.iCAREWorker.Select(w => w.profession).Distinct().ToList();
 
-            ViewBag.creatorID = new SelectList(db.iCAREAdmin, "ID", "ID", viewModel.creatorID);
+            //ViewBag.creatorID = new SelectList(db.iCAREAdmin, "ID", "ID", viewModel.creatorID);
+            ViewBag.creatorID = new SelectList(db.iCAREAdmin.Where(a => a.iCAREUser.name != "_DELETED_"), "ID", "ID", viewModel.creatorID);
             //ViewBag.roleID = new SelectList(distinctRoles, viewModel.roleID);
             ViewBag.roleID = new SelectList(db.UserRole
     .Where(b => b.roleName != "admin")
@@ -233,7 +245,8 @@ namespace Group12_iCAREAPP.Controllers
                 }
             }
 
-            ViewBag.creatorID = new SelectList(db.iCAREAdmin, "ID", "ID", viewModel.creatorID);
+            //ViewBag.creatorID = new SelectList(db.iCAREAdmin, "ID", "ID", viewModel.creatorID);
+            ViewBag.creatorID = new SelectList(db.iCAREAdmin.Where(a => a.iCAREUser.name != "_DELETED_"), "ID", "ID", viewModel.creatorID);
             //ViewBag.roleID = new SelectList(db.iCAREWorker, "ID", "profession", viewModel.roleID);
             ViewBag.roleID = new SelectList(db.UserRole
     .Where(b => b.roleName != "admin")
@@ -274,7 +287,7 @@ namespace Group12_iCAREAPP.Controllers
                     }
 
                     //find the associated iCAREWorker
-                    iCAREWorker iCAREWorker = db.iCAREWorker.Find(id);
+                    /*iCAREWorker iCAREWorker = db.iCAREWorker.Find(id);
                     if (iCAREWorker != null)
                     {
                         db.iCAREWorker.Remove(iCAREWorker);
@@ -288,7 +301,13 @@ namespace Group12_iCAREAPP.Controllers
                     }
 
                     //remove the iCAREUser
-                    db.iCAREUser.Remove(iCAREUser);
+                    db.iCAREUser.Remove(iCAREUser);*/
+
+
+                    // Shadow delete the worker by changing their name.
+                    iCAREUser.name = "_DELETED_";  // Mark as deleted
+                    db.Entry(iCAREUser).State = EntityState.Modified;
+
 
                     //save changes
                     db.SaveChanges();
