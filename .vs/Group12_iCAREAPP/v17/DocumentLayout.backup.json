@@ -3,16 +3,20 @@
   "WorkspaceRootPath": "C:\\Group12_iCAREAPP\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{8AABAC9D-24D2-4D62-9D72-0DA714E8E1FD}|Group12_iCAREAPP\\Group12_iCAREAPP.csproj|c:\\group12_icareapp\\group12_icareapp\\controllers\\patientrecordscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8AABAC9D-24D2-4D62-9D72-0DA714E8E1FD}|Group12_iCAREAPP\\Group12_iCAREAPP.csproj|solutionrelative:group12_icareapp\\controllers\\patientrecordscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8AABAC9D-24D2-4D62-9D72-0DA714E8E1FD}|Group12_iCAREAPP\\Group12_iCAREAPP.csproj|c:\\group12_icareapp\\group12_icareapp\\views\\patientrecords\\filteredpatientindex.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{8AABAC9D-24D2-4D62-9D72-0DA714E8E1FD}|Group12_iCAREAPP\\Group12_iCAREAPP.csproj|solutionrelative:group12_icareapp\\views\\patientrecords\\filteredpatientindex.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{8AABAC9D-24D2-4D62-9D72-0DA714E8E1FD}|Group12_iCAREAPP\\Group12_iCAREAPP.csproj|C:\\Group12_iCAREAPP\\group12_icareapp\\views\\patientrecords\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{8AABAC9D-24D2-4D62-9D72-0DA714E8E1FD}|Group12_iCAREAPP\\Group12_iCAREAPP.csproj|solutionrelative:group12_icareapp\\views\\patientrecords\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{8AABAC9D-24D2-4D62-9D72-0DA714E8E1FD}|Group12_iCAREAPP\\Group12_iCAREAPP.csproj|c:\\group12_icareapp\\group12_icareapp\\views\\documents\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{8AABAC9D-24D2-4D62-9D72-0DA714E8E1FD}|Group12_iCAREAPP\\Group12_iCAREAPP.csproj|solutionrelative:group12_icareapp\\views\\documents\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{8AABAC9D-24D2-4D62-9D72-0DA714E8E1FD}|Group12_iCAREAPP\\Group12_iCAREAPP.csproj|c:\\group12_icareapp\\group12_icareapp\\controllers\\patientrecordscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8AABAC9D-24D2-4D62-9D72-0DA714E8E1FD}|Group12_iCAREAPP\\Group12_iCAREAPP.csproj|solutionrelative:group12_icareapp\\controllers\\patientrecordscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{8AABAC9D-24D2-4D62-9D72-0DA714E8E1FD}|Group12_iCAREAPP\\Group12_iCAREAPP.csproj|C:\\Group12_iCAREAPP\\group12_icareapp\\controllers\\treatmentrecordscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -82,7 +86,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 17,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
@@ -91,6 +95,19 @@
             {
               "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "FilteredPatientIndex.cshtml",
+              "DocumentMoniker": "C:\\Group12_iCAREAPP\\Group12_iCAREAPP\\Views\\PatientRecords\\FilteredPatientIndex.cshtml",
+              "RelativeDocumentMoniker": "Group12_iCAREAPP\\Views\\PatientRecords\\FilteredPatientIndex.cshtml",
+              "ToolTip": "C:\\Group12_iCAREAPP\\Group12_iCAREAPP\\Views\\PatientRecords\\FilteredPatientIndex.cshtml",
+              "RelativeToolTip": "Group12_iCAREAPP\\Views\\PatientRecords\\FilteredPatientIndex.cshtml",
+              "ViewState": "AgIAAE4AAAAAAAAAAAAAAF0AAABCAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-07T14:34:44.058Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "Index.cshtml",
               "DocumentMoniker": "C:\\Group12_iCAREAPP\\Group12_iCAREAPP\\Views\\Documents\\Index.cshtml",
               "RelativeDocumentMoniker": "Group12_iCAREAPP\\Views\\Documents\\Index.cshtml",
@@ -103,7 +120,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "DocumentsController.cs",
               "DocumentMoniker": "C:\\Group12_iCAREAPP\\Group12_iCAREAPP\\Controllers\\DocumentsController.cs",
               "RelativeDocumentMoniker": "Group12_iCAREAPP\\Controllers\\DocumentsController.cs",
@@ -116,20 +133,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "PatientRecordsController.cs",
               "DocumentMoniker": "C:\\Group12_iCAREAPP\\Group12_iCAREAPP\\Controllers\\PatientRecordsController.cs",
               "RelativeDocumentMoniker": "Group12_iCAREAPP\\Controllers\\PatientRecordsController.cs",
               "ToolTip": "C:\\Group12_iCAREAPP\\Group12_iCAREAPP\\Controllers\\PatientRecordsController.cs",
               "RelativeToolTip": "Group12_iCAREAPP\\Controllers\\PatientRecordsController.cs",
-              "ViewState": "AgIAAAgBAAAAAAAAAAAiwG8BAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAA8BAAAAAAAAAAAAAHUBAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-11-07T13:12:16.793Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "Edit.cshtml",
               "DocumentMoniker": "C:\\Group12_iCAREAPP\\Group12_iCAREAPP\\Views\\PatientRecords\\Edit.cshtml",
               "RelativeDocumentMoniker": "Group12_iCAREAPP\\Views\\PatientRecords\\Edit.cshtml",
@@ -142,7 +159,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "Create.cshtml",
               "DocumentMoniker": "C:\\Group12_iCAREAPP\\Group12_iCAREAPP\\Views\\PatientRecords\\Create.cshtml",
               "RelativeDocumentMoniker": "Group12_iCAREAPP\\Views\\PatientRecords\\Create.cshtml",
@@ -155,7 +172,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 11,
               "Title": "Edit.cshtml",
               "DocumentMoniker": "C:\\Group12_iCAREAPP\\Group12_iCAREAPP\\Views\\Documents\\Edit.cshtml",
               "RelativeDocumentMoniker": "Group12_iCAREAPP\\Views\\Documents\\Edit.cshtml",
@@ -168,7 +185,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "Create.cshtml",
               "DocumentMoniker": "C:\\Group12_iCAREAPP\\Group12_iCAREAPP\\Views\\Documents\\Create.cshtml",
               "RelativeDocumentMoniker": "Group12_iCAREAPP\\Views\\Documents\\Create.cshtml",
@@ -181,7 +198,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "iCAREAdminsController.cs",
               "DocumentMoniker": "C:\\Group12_iCAREAPP\\Group12_iCAREAPP\\Controllers\\iCAREAdminsController.cs",
               "RelativeDocumentMoniker": "Group12_iCAREAPP\\Controllers\\iCAREAdminsController.cs",
@@ -194,7 +211,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 12,
               "Title": "AdminLayout.cshtml",
               "DocumentMoniker": "C:\\Group12_iCAREAPP\\Group12_iCAREAPP\\Views\\Shared\\AdminLayout.cshtml",
               "RelativeDocumentMoniker": "Group12_iCAREAPP\\Views\\Shared\\AdminLayout.cshtml",
@@ -207,7 +224,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 15,
               "Title": "Edit.cshtml",
               "DocumentMoniker": "C:\\Group12_iCAREAPP\\Group12_iCAREAPP\\Views\\iCAREUsers\\Edit.cshtml",
               "RelativeDocumentMoniker": "Group12_iCAREAPP\\Views\\iCAREUsers\\Edit.cshtml",
@@ -220,7 +237,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 16,
               "Title": "Create.cshtml",
               "DocumentMoniker": "C:\\Group12_iCAREAPP\\Group12_iCAREAPP\\Views\\iCAREUsers\\Create.cshtml",
               "RelativeDocumentMoniker": "Group12_iCAREAPP\\Views\\iCAREUsers\\Create.cshtml",
@@ -233,7 +250,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "HomeController.cs",
               "DocumentMoniker": "C:\\Group12_iCAREAPP\\Group12_iCAREAPP\\Controllers\\HomeController.cs",
               "RelativeDocumentMoniker": "Group12_iCAREAPP\\Controllers\\HomeController.cs",
@@ -246,7 +263,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 18,
               "Title": "iCAREUserViewModel.cs",
               "DocumentMoniker": "C:\\Group12_iCAREAPP\\Group12_iCAREAPP\\Models\\iCAREUserViewModel.cs",
               "RelativeDocumentMoniker": "Group12_iCAREAPP\\Models\\iCAREUserViewModel.cs",
@@ -259,7 +276,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 17,
               "Title": "iCAREUsersController.cs",
               "DocumentMoniker": "C:\\Group12_iCAREAPP\\Group12_iCAREAPP\\Controllers\\iCAREUsersController.cs",
               "RelativeDocumentMoniker": "Group12_iCAREAPP\\Controllers\\iCAREUsersController.cs",
@@ -272,7 +289,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "TreatmentRecordsController.cs",
               "DocumentMoniker": "C:\\Group12_iCAREAPP\\Group12_iCAREAPP\\Controllers\\TreatmentRecordsController.cs",
               "RelativeDocumentMoniker": "Group12_iCAREAPP\\Controllers\\TreatmentRecordsController.cs",
@@ -285,7 +302,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 13,
               "Title": "FilteredTreatmentsIndex.cshtml",
               "DocumentMoniker": "C:\\Group12_iCAREAPP\\Group12_iCAREAPP\\Views\\TreatmentRecords\\FilteredTreatmentsIndex.cshtml",
               "RelativeDocumentMoniker": "Group12_iCAREAPP\\Views\\TreatmentRecords\\FilteredTreatmentsIndex.cshtml",
@@ -298,20 +315,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "Index.cshtml",
               "DocumentMoniker": "C:\\Group12_iCAREAPP\\Group12_iCAREAPP\\Views\\PatientRecords\\Index.cshtml",
               "RelativeDocumentMoniker": "Group12_iCAREAPP\\Views\\PatientRecords\\Index.cshtml",
               "ToolTip": "C:\\Group12_iCAREAPP\\Group12_iCAREAPP\\Views\\PatientRecords\\Index.cshtml",
               "RelativeToolTip": "Group12_iCAREAPP\\Views\\PatientRecords\\Index.cshtml",
-              "ViewState": "AgIAAC4AAAAAAAAAAAAAAEcAAAAcAAAAAAAAAA==",
+              "ViewState": "AgIAAEwAAAAAAAAAAAAAAF0AAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2024-11-06T15:54:00.051Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 14,
               "Title": "Index.cshtml",
               "DocumentMoniker": "C:\\Group12_iCAREAPP\\Group12_iCAREAPP\\Views\\TreatmentRecords\\Index.cshtml",
               "RelativeDocumentMoniker": "Group12_iCAREAPP\\Views\\TreatmentRecords\\Index.cshtml",
