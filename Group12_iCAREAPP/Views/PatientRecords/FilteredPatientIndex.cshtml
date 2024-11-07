@@ -50,11 +50,17 @@
             @* @Html.DisplayNameFor(model => model.iCAREWorker.profession) *@
             Maintaining WorkerID
         </th>
+        <th>Doctor Assigned</th>
+        <th>Nurse Count</th>
         <th></th>
     </tr>
 
     @foreach (var item in Model)
     {
+        // Use inline code to determine doctor assignment and nurse count
+        var doctorAssigned = item.TreatmentRecord.Any(t => t.iCAREWorker.roleID == "1");
+        var nurseCount = item.TreatmentRecord.Count(t => t.iCAREWorker.roleID == "2");
+
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.name)
@@ -87,10 +93,12 @@
                 @* @Html.DisplayFor(modelItem => item.iCAREWorker.profession) *@
                 @Html.DisplayFor(modelItem => item.iCAREWorker.ID)
             </td>
+            <td>@(doctorAssigned ? "Yes" : "N/A")</td>
+            <td>@nurseCount</td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
                 @Html.ActionLink("Details", "Details", new { id = item.ID }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.ID }) 
+                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
             </td>
         </tr>
     }

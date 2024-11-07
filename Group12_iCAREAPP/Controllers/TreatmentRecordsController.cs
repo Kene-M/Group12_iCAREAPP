@@ -166,6 +166,33 @@ namespace Group12_iCAREAPP.Controllers
             return View(treatmentRecord);
         }
 
+        public ActionResult Release(string workerID, string patientID)
+        {
+            if (workerID == null || patientID == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            // Retrieve the TreatmentRecord based on workerID and patientID
+            TreatmentRecord treatmentRecord = db.TreatmentRecord.Find(workerID, patientID);
+
+            if (treatmentRecord == null)
+            {
+                return HttpNotFound();
+            }
+
+            // Append the release date to the description
+            treatmentRecord.description += " | Released: " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            // Mark the entity as modified
+            db.Entry(treatmentRecord).State = EntityState.Modified;
+
+            // Save changes to the database
+            db.SaveChanges();
+
+            // Redirect to the FilteredTreatmentsIndex after updating the treatment record
+            return RedirectToAction("FilteredTreatmentsIndex", new { id = patientID });
+        }
+
         // GET: TreatmentRecords/Delete/5
         /*public ActionResult Delete(string id)
         {

@@ -62,7 +62,9 @@ namespace Group12_iCAREAPP.Controllers
                         var userPassword = new UserPassword
                         {
                             password = viewModel.password,
-                            ID = viewModel.passwordID
+
+                            //ID = viewModel.passwordID
+                            ID = viewModel.ID
                         };
 
                         db.UserPassword.Add(userPassword);

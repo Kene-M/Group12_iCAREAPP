@@ -73,6 +73,14 @@ namespace Group12_iCAREAPP.Controllers
         {
             ViewBag.geoUnitID = new SelectList(db.GeoCodes, "ID", "description");
             ViewBag.maintainWorkerID = new SelectList(db.iCAREWorker, "ID", "ID");
+            ViewBag.BloodGroupList = new SelectList(new[]
+            {
+                new { Value = "A+", Text = "A+" }, new { Value = "A-", Text = "A-" },
+                new { Value = "B+", Text = "B+" }, new { Value = "B-", Text = "B-" },
+                new { Value = "AB+", Text = "AB+" }, new { Value = "AB-", Text = "AB-" },
+                new { Value = "O+", Text = "O+" }, new { Value = "O-", Text = "O-" }
+            }, "Value", "Text");
+
             return View();
         }
 
@@ -85,13 +93,36 @@ namespace Group12_iCAREAPP.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.PatientRecord.Add(patientRecord);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                using (var transaction = db.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        db.PatientRecord.Add(patientRecord);
+                        db.SaveChanges();
+
+                        //commit transaction
+                        transaction.Commit();
+                        return RedirectToAction("Index");
+                    }
+                    catch (Exception ex)
+                    {
+                        //if any error occurs
+                        transaction.Rollback();
+                        ModelState.AddModelError("", "An error occurred while creating the patient, address, and date.");
+                    }
+                }
             }
 
             ViewBag.geoUnitID = new SelectList(db.GeoCodes, "ID", "description", patientRecord.geoUnitID);
             ViewBag.maintainWorkerID = new SelectList(db.iCAREWorker, "ID", "ID", patientRecord.maintainWorkerID);
+            ViewBag.BloodGroupList = new SelectList(new[]
+            {
+                new { Value = "A+", Text = "A+" }, new { Value = "A-", Text = "A-" },
+                new { Value = "B+", Text = "B+" }, new { Value = "B-", Text = "B-" },
+                new { Value = "AB+", Text = "AB+" }, new { Value = "AB-", Text = "AB-" },
+                new { Value = "O+", Text = "O+" }, new { Value = "O-", Text = "O-" }
+            }, "Value", "Text");
+
             return View(patientRecord);
         }
 
@@ -109,6 +140,14 @@ namespace Group12_iCAREAPP.Controllers
             }
             ViewBag.geoUnitID = new SelectList(db.GeoCodes, "ID", "description", patientRecord.geoUnitID);
             ViewBag.maintainWorkerID = new SelectList(db.iCAREWorker, "ID", "ID", patientRecord.maintainWorkerID);
+            ViewBag.BloodGroupList = new SelectList(new[]
+            {
+                new { Value = "A+", Text = "A+" }, new { Value = "A-", Text = "A-" },
+                new { Value = "B+", Text = "B+" }, new { Value = "B-", Text = "B-" },
+                new { Value = "AB+", Text = "AB+" }, new { Value = "AB-", Text = "AB-" },
+                new { Value = "O+", Text = "O+" }, new { Value = "O-", Text = "O-" }
+            }, "Value", "Text");
+
             return View(patientRecord);
         }
 
@@ -121,12 +160,31 @@ namespace Group12_iCAREAPP.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(patientRecord).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                using (var transaction = db.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        db.Entry(patientRecord).State = EntityState.Modified;
+                        db.SaveChanges();
+
+                        //commit transaction
+                        transaction.Commit();
+                        return RedirectToAction("Index");
+                    }
+                    catch (Exception ex)
+                    {
+                        //if any error occurs
+                        transaction.Rollback();
+                        ModelState.AddModelError("", "An error occurred while updating the patient, address, and date.");
+                    }
+                }
             }
+
+            // Repopulate dropdown list in case of validation error
             ViewBag.geoUnitID = new SelectList(db.GeoCodes, "ID", "description", patientRecord.geoUnitID);
             ViewBag.maintainWorkerID = new SelectList(db.iCAREWorker, "ID", "ID", patientRecord.maintainWorkerID);
+            ViewBag.BloodGroupList = new SelectList(new List<string> { "A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-" }, patientRecord.bloodGroup);
+
             return View(patientRecord);
         }
 
@@ -336,7 +394,8 @@ namespace Group12_iCAREAPP.Controllers
                 .ToList();
 
             // Determine if the worker can be assigned
-            if (roleID.Equals("1")) // If the worker is a doctor
+            //if (roleID.Equals("1")) // If the worker is a doctor
+            if (roleID.Equals("doctor")) // If the worker is a doctor
             {
                 //canBeAssigned = assignedDoctors.Count == 0 && assignedNurses.Any();
                 canBeAssigned = assignedDoctors.Count == 0 && assignedNurses.Any();

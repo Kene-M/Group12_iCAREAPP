@@ -56,7 +56,8 @@
                     <td>
                 @Html.ActionLink("Edit", "Edit", new { workerID=item.workerID, patientID=item.patientID }) |
                 @Html.ActionLink("Details", "Details", new { workerID = item.workerID, patientID = item.patientID }) |
-                @Html.ActionLink("Delete", "Delete", new { workerID = item.workerID, patientID = item.patientID })
+                @Html.ActionLink("Delete", "Delete", new { workerID = item.workerID, patientID = item.patientID }) |
+                @Html.ActionLink("Release", "Release", new { workerID = item.workerID, patientID = item.patientID })
                     </td>
             </tr>
         }

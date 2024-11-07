@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Group12_iCAREAPP.Models;
+using Microsoft.Ajax.Utilities;
 
 namespace Group12_iCAREAPP.Controllers
 {
@@ -65,7 +66,9 @@ namespace Group12_iCAREAPP.Controllers
                         var userPassword = new UserPassword
                         {
                             password = viewModel.password,
-                            ID = viewModel.passwordID
+
+                            //ID = viewModel.passwordID
+                            ID = viewModel.ID
                         };
 
                         db.UserPassword.Add(userPassword);
@@ -76,17 +79,26 @@ namespace Group12_iCAREAPP.Controllers
                         {
                             ID = viewModel.ID,
                             name = viewModel.name,
-                            passwordID = userPassword.ID
+
+                            //passwordID = userPassword.ID
+                            passwordID = viewModel.ID
                         };
 
                         db.iCAREUser.Add(iCAREUser);
                         db.SaveChanges();
 
+                        string professionStr;
+                        if (viewModel.roleID == "1") professionStr = "doctor";
+                        else professionStr = "nurse";
+
                         //create the iCAREWorker
                         var iCAREWorker = new iCAREWorker
                         {
                             ID = iCAREUser.ID,
-                            profession = viewModel.profession,
+
+                            //profession = viewModel.profession,
+                            profession = professionStr,
+
                             creatorID = viewModel.creatorID,
                             roleID = viewModel.roleID
                         };
@@ -136,7 +148,10 @@ namespace Group12_iCAREAPP.Controllers
                 name = iCAREUser.name,
                 password = userPassword?.password,
                 passwordID = iCAREUser.passwordID,
-                profession = iCAREWorker?.profession,
+
+                //profession = iCAREWorker?.profession,
+                profession = iCAREWorker?.UserRole.roleName,
+
                 creatorID = iCAREWorker?.creatorID,
                 roleID = iCAREWorker?.roleID
             };
@@ -190,7 +205,13 @@ namespace Group12_iCAREAPP.Controllers
                         var iCAREWorker = db.iCAREWorker.Find(iCAREUser.ID);
                         if (iCAREWorker != null)
                         {
-                            iCAREWorker.profession = viewModel.profession;
+                            //iCAREWorker.profession = viewModel.profession;
+
+                            if (viewModel.roleID == "1")
+                                iCAREWorker.profession = "doctor";
+                            else
+                                iCAREWorker.profession = "nurse";
+
                             iCAREWorker.creatorID = viewModel.creatorID;
                             iCAREWorker.roleID = viewModel.roleID;
                             db.Entry(iCAREWorker).State = EntityState.Modified;

@@ -98,22 +98,37 @@ namespace Group12_iCAREAPP.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (docData != null && docData.ContentLength > 0)
+                using (var transaction = db.Database.BeginTransaction())
                 {
-                    using (var memoryStream = new MemoryStream())
+                    try
                     {
-                        docData.InputStream.CopyTo(memoryStream);
-                        document.docData = memoryStream.ToArray();  // Assign binary data
-                        //document.docType = docData.ContentType;     // Assign file type
+                        if (docData != null && docData.ContentLength > 0)
+                        {
+                            using (var memoryStream = new MemoryStream())
+                            {
+                                docData.InputStream.CopyTo(memoryStream);
+                                document.docData = memoryStream.ToArray();  // Assign binary data
+                                //document.docType = docData.ContentType;     // Assign file type
+                            }
+                        }
+
+                        document.dateOfCreation = DateTime.Now; // Add creation date if needed
+                        db.Document.Add(document);              // Add document to DbSet
+                        db.SaveChanges();                       // Save changes to database
+
+                        //commit transaction
+                        transaction.Commit();
+                        return RedirectToAction("Index");
+                    }
+                    catch (Exception ex)
+                    {
+                        //if any error occurs
+                        transaction.Rollback();
+                        ModelState.AddModelError("", "An error occurred while creating the document. Did you include a name?");
                     }
                 }
-
-                document.dateOfCreation = DateTime.Now; // Add creation date if needed
-                db.Document.Add(document);              // Add document to DbSet
-                db.SaveChanges();                       // Save changes to database
-                return RedirectToAction("Index");
             }
-            
+
             // Repopulate dropdowns if ModelState is invalid
             //ViewBag.DocTypeOptions = new SelectList(new List<string> { "document", "image" });
             ViewBag.drugUsedID = new SelectList(db.DrugsDictionary, "ID", "name", document.drugUsedID);
@@ -124,7 +139,7 @@ namespace Group12_iCAREAPP.Controllers
 
 
         // For showing documents
-        public ActionResult Display(string id)
+        /*public ActionResult Display(string id)
         {
             var document = db.Document.Find(id);
             if (document == null || document.docData == null)
@@ -154,9 +169,9 @@ namespace Group12_iCAREAPP.Controllers
             // Set inline or attachment based on type
             Response.Headers["Content-Disposition"] = isInline ? "inline" : "attachment";
             return File(document.docData, contentType);
-        }
+        }*/
 
-        /*public ActionResult Display(string id)
+        public ActionResult Display(string id)
         {
             var document = db.Document.Find(id);
             if (document == null || document.docData == null)
@@ -164,12 +179,39 @@ namespace Group12_iCAREAPP.Controllers
                 return HttpNotFound();
             }
 
-            string fileType = document.docType == "image" ? "image/png" : "application/pdf";
-            string disposition = document.docType == "image" ? "inline" : "attachment";
+            // Determine the content type based on the file signature
+            string contentType;
+            bool isInline = false;
 
-            Response.Headers["Content-Disposition"] = $"{disposition}; filename={document.docName}";
-            return File(document.docData, fileType);
-        }*/
+            // Check the first few bytes of the file to determine type
+            var fileHeader = document.docData.Take(4).ToArray();
+            if (fileHeader.SequenceEqual(new byte[] { 0x25, 0x50, 0x44, 0x46 })) // PDF header %PDF
+            {
+                contentType = "application/pdf";
+                isInline = true;
+            }
+            else if (fileHeader.Take(3).SequenceEqual(new byte[] { 0xFF, 0xD8, 0xFF })) // JPEG header
+            {
+                contentType = "image/jpeg";
+                isInline = true;
+            }
+            else if (fileHeader.Take(4).SequenceEqual(new byte[] { 0x89, 0x50, 0x4E, 0x47 })) // PNG header
+            {
+                contentType = "image/png";
+                isInline = true;
+            }
+            else
+            {
+                // Unknown format, set as attachment
+                contentType = "application/octet-stream";
+            }
+
+            // Set the Content-Disposition based on whether it’s inline or an attachment
+            Response.Headers["Content-Disposition"] = isInline ? "inline" : "attachment";
+
+            // Return the file with the appropriate content type
+            return File(document.docData, contentType);
+        }
 
         // GET: Documents/Edit/5
         public ActionResult Edit(string id)
@@ -233,37 +275,51 @@ namespace Group12_iCAREAPP.Controllers
 
             if (ModelState.IsValid)
             {
-                var existingDocument = db.Document.Find(id);
-
-                // Update fields
-                existingDocument.docName = document.docName;
-                existingDocument.docType = document.docType;
-                existingDocument.dateOfCreation = document.dateOfCreation;
-                existingDocument.drugUsedID = document.drugUsedID;
-                existingDocument.patientID = document.patientID;
-                existingDocument.treatmentDescription = document.treatmentDescription;
-                existingDocument.prescription = document.prescription;
-                existingDocument.workerID = document.workerID;
-
-                // If a new file is uploaded, replace the existing document data
-                if (docFile != null && docFile.ContentLength > 0)
+                using (var transaction = db.Database.BeginTransaction())
                 {
-                    //using (var binaryReader = new BinaryReader(docFile.InputStream))
-                    //{
-                    //    existingDocument.docData = binaryReader.ReadBytes(docFile.ContentLength);
-                    //}
-                    using (var memoryStream = new MemoryStream())
+                    try
                     {
-                        docFile.InputStream.CopyTo(memoryStream);
-                        existingDocument.docData = memoryStream.ToArray();  // Assign binary data
-                        //document.docType = docData.ContentType;     // Assign file type
+                        var existingDocument = db.Document.Find(id);
+
+                        // Update fields
+                        existingDocument.docName = document.docName;
+                        existingDocument.docType = document.docType;
+                        existingDocument.dateOfCreation = document.dateOfCreation;
+                        existingDocument.drugUsedID = document.drugUsedID;
+                        existingDocument.patientID = document.patientID;
+                        existingDocument.treatmentDescription = document.treatmentDescription;
+                        existingDocument.prescription = document.prescription;
+                        existingDocument.workerID = document.workerID;
+
+                        // If a new file is uploaded, replace the existing document data
+                        if (docFile != null && docFile.ContentLength > 0)
+                        {
+                            //using (var binaryReader = new BinaryReader(docFile.InputStream))
+                            //{
+                            //    existingDocument.docData = binaryReader.ReadBytes(docFile.ContentLength);
+                            //}
+                            using (var memoryStream = new MemoryStream())
+                            {
+                                docFile.InputStream.CopyTo(memoryStream);
+                                existingDocument.docData = memoryStream.ToArray();  // Assign binary data
+                                                                                    //document.docType = docData.ContentType;     // Assign file type
+                            }
+                        }
+
+                        db.SaveChanges();
+
+                        //commit transaction
+                        transaction.Commit();
+                        return RedirectToAction("Index");
+                    }
+                    catch (Exception ex)
+                    {
+                        //if any error occurs
+                        transaction.Rollback();
+                        ModelState.AddModelError("", "An error occurred while updating the document. Did you include a name?");
                     }
                 }
-
-                db.SaveChanges();
-                return RedirectToAction("Index");
             }
-
 
             // Repopulate the options if the model is invalid
             /*ViewBag.DrugOptions = db.DrugsDictionary

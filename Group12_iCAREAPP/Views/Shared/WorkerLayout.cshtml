@@ -60,6 +60,22 @@
                     @*<li>@Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, new { @class = "nav-link plain-link" })</li>*@
                 </ul>
                 <ul class="navbar-nav navbar-right">
+                    @{
+                        // Display "Welcome, Admin" only if the user role is admin
+                        var userRole = Session["UserRole"]?.ToString();
+                        if (userRole == "doctor")
+                        {
+                            <li class="nav-item">
+                                <span class="nav-link plain-link">Welcome, Doctor</span>
+                            </li>
+                        }
+                        else if (userRole == "nurse")
+                        {
+                            <li class="nav-item">
+                                <span class="nav-link plain-link">Welcome, Nurse</span>
+                            </li>
+                        }
+                    }
                     <li>
                         @Html.ActionLink("Sign Out", "Index", "Home", new { area = "" }, new { @class = "nav-link plain-link" })
                     </li>

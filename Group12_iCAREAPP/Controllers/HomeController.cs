@@ -85,11 +85,12 @@ namespace Group12_iCAREAPP.Controllers
                             // Redirect based on user role
                             if (isAdmin)
                             {
-                                return RedirectToAction("Index", "iCAREWorkers");
+                                return RedirectToAction("Index", "iCAREUsers");
                             }
                             else if (isWorker)
                             {
-                                Session["UserRole"] = user.iCAREWorker.roleID;
+                                //Session["UserRole"] = user.iCAREWorker.roleID;
+                                Session["UserRole"] = user.iCAREWorker.UserRole.roleName;
                                 return RedirectToAction("Index", "PatientRecords");
                             }
                         }
