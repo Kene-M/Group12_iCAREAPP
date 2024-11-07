@@ -12,7 +12,11 @@
 <h2>iCare Users</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @*@Html.ActionLink("Create New", "Create")*@
+    @using (Html.BeginForm("Create", "iCAREUsers", FormMethod.Get))
+    {
+        <button type="submit" class="btn btn-primary">Create New</button>
+    }
 </p>
 <table class="table">
     <tr>
@@ -47,9 +51,12 @@
                 @Html.DisplayFor(modelItem => item.iCAREWorker.profession)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
-                @Html.ActionLink("Details", "Details", new { id = item.ID }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                @*@Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+        @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+        @Html.ActionLink("Delete", "Delete", new { id = item.ID })*@
+                @Html.ActionLink("Edit", "Edit", new { id = item.ID }, new { @class = "btn btn-sm btn-secondary mx-1" }) 
+                @Html.ActionLink("Details", "Details", new { id = item.ID }, new { @class = "btn btn-sm btn-secondary mx-1" }) 
+                @Html.ActionLink("Delete", "Delete", new { id = item.ID }, new { @class = "btn btn-sm btn-secondary mx-1" })
             </td>
         </tr>
     }

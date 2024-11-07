@@ -197,8 +197,6 @@ namespace Group12_iCAREAPP.Controllers
             return View(viewModel);
         }
 
-
-
         // GET: iCAREAdmins/Delete/5
         public ActionResult Delete(string id)
         {
@@ -214,63 +212,90 @@ namespace Group12_iCAREAPP.Controllers
             return View(iCAREAdmin);
         }
 
-
         // POST: iCAREAdmins/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(string id)
         {
-            using (var transaction = db.Database.BeginTransaction())
-            {
-                try
-                {
-                    //find the iCAREAdmin
-                    var iCAREAdmin = db.iCAREAdmin.Find(id);
-                    if (iCAREAdmin == null)
-                    {
-                        return HttpNotFound();
-                    }
-
-                    //find the associated iCAREUser
-                    var iCAREUser = db.iCAREUser.Find(id);
-                    if (iCAREUser == null)
-                    {
-                        return HttpNotFound();
-                    }
-
-                    //find the associated UserPassword
-                    var userPassword = db.UserPassword.Find(iCAREUser.passwordID);
-                    if (userPassword != null)
-                    {
-                        db.UserPassword.Remove(userPassword);
-                    }
-
-                    //remove the iCAREUser
-                    db.iCAREUser.Remove(iCAREUser);
-
-                    //remove the iCAREAdmin
-                    db.iCAREAdmin.Remove(iCAREAdmin);
-
-                    //save changes
-                    db.SaveChanges();
-
-                    //commit transaction
-                    transaction.Commit();
-                }
-                catch (Exception ex)
-                {
-                    //if any error occurs
-                    transaction.Rollback();
-                    ModelState.AddModelError("", "An error occurred while deleting the admin, user, and password.");
-                    //log the exception details
-                    System.Diagnostics.Debug.WriteLine("Exception: " + ex.Message);
-                    System.Diagnostics.Debug.WriteLine("Stack Trace: " + ex.StackTrace);
-                    return RedirectToAction("Delete", new { id });
-                }
-            }
-
+            iCAREAdmin iCAREAdmin = db.iCAREAdmin.Find(id);
+            db.iCAREAdmin.Remove(iCAREAdmin);
+            db.SaveChanges();
             return RedirectToAction("Index");
         }
+
+
+        //// GET: iCAREAdmins/Delete/5
+        //public ActionResult Delete(string id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    iCAREAdmin iCAREAdmin = db.iCAREAdmin.Find(id);
+        //    if (iCAREAdmin == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(iCAREAdmin);
+        //}
+
+
+        //// POST: iCAREAdmins/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult DeleteConfirmed(string id)
+        //{
+        //    using (var transaction = db.Database.BeginTransaction())
+        //    {
+        //        try
+        //        {
+        //            //find the iCAREAdmin
+        //            var iCAREAdmin = db.iCAREAdmin.Find(id);
+        //            if (iCAREAdmin == null)
+        //            {
+        //                return HttpNotFound();
+        //            }
+
+        //            //find the associated iCAREUser
+        //            var iCAREUser = db.iCAREUser.Find(id);
+        //            if (iCAREUser == null)
+        //            {
+        //                return HttpNotFound();
+        //            }
+
+        //            //find the associated UserPassword
+        //            var userPassword = db.UserPassword.Find(iCAREUser.passwordID);
+        //            if (userPassword != null)
+        //            {
+        //                db.UserPassword.Remove(userPassword);
+        //            }
+
+        //            //remove the iCAREUser
+        //            db.iCAREUser.Remove(iCAREUser);
+
+        //            //remove the iCAREAdmin
+        //            db.iCAREAdmin.Remove(iCAREAdmin);
+
+        //            //save changes
+        //            db.SaveChanges();
+
+        //            //commit transaction
+        //            transaction.Commit();
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            //if any error occurs
+        //            transaction.Rollback();
+        //            ModelState.AddModelError("", "An error occurred while deleting the admin, user, and password.");
+        //            //log the exception details
+        //            System.Diagnostics.Debug.WriteLine("Exception: " + ex.Message);
+        //            System.Diagnostics.Debug.WriteLine("Stack Trace: " + ex.StackTrace);
+        //            return RedirectToAction("Delete", new { id });
+        //        }
+        //    }
+
+        //    return RedirectToAction("Index");
+        //}
 
 
         protected override void Dispose(bool disposing)

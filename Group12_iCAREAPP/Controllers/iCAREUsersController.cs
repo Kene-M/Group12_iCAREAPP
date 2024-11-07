@@ -44,6 +44,7 @@ namespace Group12_iCAREAPP.Controllers
         {
             ViewBag.creatorID = new SelectList(db.iCAREAdmin, "ID", "ID");
             //ViewBag.roleID = new SelectList(db.iCAREWorker, "ID", "profession");
+            ViewBag.ProfessionList = new SelectList(new List<string> { "doctor", "nurse"});
             ViewBag.roleID = new SelectList(db.UserRole
     .Where(b => b.roleName != "admin")
     .OrderBy(b => b.roleName), "ID", "roleName");
@@ -107,6 +108,7 @@ namespace Group12_iCAREAPP.Controllers
 
             ViewBag.creatorID = new SelectList(db.iCAREAdmin, "ID", "ID", viewModel.creatorID);
             //ViewBag.roleID = new SelectList(db.iCAREWorker, "ID", "profession", viewModel.roleID);
+            ViewBag.ProfessionList = new SelectList(new List<string> { "doctor", "nurse"});
             ViewBag.roleID = new SelectList(db.UserRole
     .Where(b => b.roleName != "admin")
     .OrderBy(b => b.roleName), "ID", "roleName");
@@ -145,10 +147,8 @@ namespace Group12_iCAREAPP.Controllers
             var distinctRoles = db.iCAREWorker.Select(w => w.profession).Distinct().ToList();
 
             ViewBag.creatorID = new SelectList(db.iCAREAdmin, "ID", "ID", viewModel.creatorID);
-            //ViewBag.roleID = new SelectList(distinctRoles, viewModel.roleID);
-            ViewBag.roleID = new SelectList(db.UserRole
-    .Where(b => b.roleName != "admin")
-    .OrderBy(b => b.roleName), "ID", "roleName");
+            ViewBag.ProfessionList = new SelectList(new List<string> { "doctor", "nurse" });
+            ViewBag.roleID = new SelectList(db.UserRole.Where(b => b.roleName != "admin").OrderBy(b => b.roleName), "ID", "roleName");
             return View(viewModel);
         }
 
@@ -213,13 +213,77 @@ namespace Group12_iCAREAPP.Controllers
             }
 
             ViewBag.creatorID = new SelectList(db.iCAREAdmin, "ID", "ID", viewModel.creatorID);
-            //ViewBag.roleID = new SelectList(db.iCAREWorker, "ID", "profession", viewModel.roleID);
-            ViewBag.roleID = new SelectList(db.UserRole
-    .Where(b => b.roleName != "admin")
-    .OrderBy(b => b.roleName), "ID", "roleName");
+            ViewBag.roleID = new SelectList(db.UserRole.Where(b => b.roleName != "admin").OrderBy(b => b.roleName), "ID", "roleName");
+            ViewBag.ProfessionList = new SelectList(new List<string> { "doctor", "nurse" });
             return View(viewModel);
         }
 
+
+        //// GET: iCAREUsers/Delete/5
+        //public ActionResult Delete(string id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    iCAREUser iCAREUser = db.iCAREUser.Find(id);
+        //    if (iCAREUser == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(iCAREUser);
+        //}
+
+        //// POST: iCAREUsers/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult DeleteConfirmed(string id)
+        //{
+        //    using (var transaction = db.Database.BeginTransaction())
+        //    {
+        //        try
+        //        {
+        //            //find the iCAREUser
+        //            iCAREUser iCAREUser = db.iCAREUser.Find(id);
+        //            if (iCAREUser == null)
+        //            {
+        //                return HttpNotFound();
+        //            }
+
+        //            //find the associated iCAREWorker
+        //            iCAREWorker iCAREWorker = db.iCAREWorker.Find(id);
+        //            if (iCAREWorker != null)
+        //            {
+        //                db.iCAREWorker.Remove(iCAREWorker);
+        //            }
+
+        //            //find the associated UserPassword
+        //            UserPassword userPassword = db.UserPassword.Find(iCAREUser.passwordID);
+        //            if (userPassword != null)
+        //            {
+        //                db.UserPassword.Remove(userPassword);
+        //            }
+
+        //            //remove the iCAREUser
+        //            db.iCAREUser.Remove(iCAREUser);
+
+        //            //save changes
+        //            db.SaveChanges();
+
+        //            //commit transaction
+        //            transaction.Commit();
+        //        }
+        //        catch (Exception)
+        //        {
+        //            //if any error occurs
+        //            transaction.Rollback();
+        //            ModelState.AddModelError("", "An error occurred while deleting the user and associated records.");
+        //            return RedirectToAction("Delete", new { id });
+        //        }
+        //    }
+
+        //    return RedirectToAction("Index");
+        //}
 
         // GET: iCAREUsers/Delete/5
         public ActionResult Delete(string id)
@@ -241,49 +305,9 @@ namespace Group12_iCAREAPP.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(string id)
         {
-            using (var transaction = db.Database.BeginTransaction())
-            {
-                try
-                {
-                    //find the iCAREUser
-                    iCAREUser iCAREUser = db.iCAREUser.Find(id);
-                    if (iCAREUser == null)
-                    {
-                        return HttpNotFound();
-                    }
-
-                    //find the associated iCAREWorker
-                    iCAREWorker iCAREWorker = db.iCAREWorker.Find(id);
-                    if (iCAREWorker != null)
-                    {
-                        db.iCAREWorker.Remove(iCAREWorker);
-                    }
-
-                    //find the associated UserPassword
-                    UserPassword userPassword = db.UserPassword.Find(iCAREUser.passwordID);
-                    if (userPassword != null)
-                    {
-                        db.UserPassword.Remove(userPassword);
-                    }
-
-                    //remove the iCAREUser
-                    db.iCAREUser.Remove(iCAREUser);
-
-                    //save changes
-                    db.SaveChanges();
-
-                    //commit transaction
-                    transaction.Commit();
-                }
-                catch (Exception)
-                {
-                    //if any error occurs
-                    transaction.Rollback();
-                    ModelState.AddModelError("", "An error occurred while deleting the user and associated records.");
-                    return RedirectToAction("Delete", new { id });
-                }
-            }
-
+            iCAREUser iCAREUser = db.iCAREUser.Find(id);
+            db.iCAREUser.Remove(iCAREUser);
+            db.SaveChanges();
             return RedirectToAction("Index");
         }
 
