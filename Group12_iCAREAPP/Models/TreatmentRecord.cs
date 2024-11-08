@@ -11,12 +11,14 @@ namespace Group12_iCAREAPP.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class TreatmentRecord
     {
         public string ID { get; set; }
         public string workerID { get; set; }
         public string patientID { get; set; }
+        [StringLength(1500)]
         public string description { get; set; }
         public Nullable<System.DateTime> treatmentDate { get; set; }
     

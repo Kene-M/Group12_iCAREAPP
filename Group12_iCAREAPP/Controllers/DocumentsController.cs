@@ -161,17 +161,17 @@ namespace Group12_iCAREAPP.Controllers
 
                         // Retrieve metadata for treatment description
                         var drug = db.DrugsDictionary.SingleOrDefault(d => d.ID == document.drugUsedID);
-                        var worker = db.iCAREWorker.Include(w => w.iCAREUser).SingleOrDefault(w => w.ID == document.workerID);
+                        //var worker = db.iCAREWorker.Include(w => w.iCAREUser).SingleOrDefault(w => w.ID == document.workerID);
+                        var worker = db.iCAREWorker.Find(document.workerID);
                         string drugName = drug != null ? drug.name : "Unknown Drug";
                         string workerProfession = worker != null ? worker.profession : "Unknown Profession";
 
                         // Create description content
-                        string descriptionContent = $"New document created for the treatment: Date - " +
-                            $"{(document.dateOfCreation?.ToString("yyyy-MM-dd") ?? "N/A")} - Drug Used: {drugName} - Profession of Worker: {workerProfession}";
+                        string descriptionContent = $"New document created for the treatment: Date - " + $"{(document.dateOfCreation?.ToString("yyyy-MM-dd") ?? "N/A")} - Drug Used: {drugName} - Profession of Worker: {workerProfession}";
 
                         // Find or create a TreatmentRecord for the patient and worker
                         var treatmentRecord = db.TreatmentRecord
-                                                .FirstOrDefault(t => t.patientID == document.patientID && t.iCAREWorker.ID == document.workerID);
+                                                .FirstOrDefault(t => t.patientID == document.patientID && t.workerID == document.workerID);
 
                         if (treatmentRecord != null)
                         {
@@ -185,9 +185,11 @@ namespace Group12_iCAREAPP.Controllers
                             {
                                 ID = document.patientID + document.workerID,
                                 patientID = document.patientID,
-                                iCAREWorker = worker,
+                                workerID = document.workerID,
                                 treatmentDate = DateTime.Now,
-                                description = descriptionContent
+                                description = descriptionContent,
+                                iCAREWorker = worker,
+                                PatientRecord = db.PatientRecord.Find(document.patientID)
                             };
                             db.TreatmentRecord.Add(treatmentRecord);
                         }
