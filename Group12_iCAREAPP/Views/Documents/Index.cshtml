@@ -8,6 +8,105 @@
     Layout = "~/Views/Shared/WorkerLayout.cshtml";
 }
 
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #e6f7e6; /* Light green background */
+        color: #333;
+        margin: 0;
+        padding: 20px;
+    }
+
+    /* Header */
+    h2 {
+        color: #338080; /* Blue-green accent */
+        text-align: center;
+    }
+
+    /* Link for creating new documents */
+    p a {
+        color: #338080;
+        font-weight: bold;
+        text-decoration: none;
+    }
+
+        p a:hover {
+            color: #4d8080; /* Darker shade on hover */
+            text-decoration: underline;
+        }
+
+    /* Centering filter forms */
+    .row {
+        display: flex;
+        justify-content: space-around;
+        margin: 20px 0;
+    }
+
+    .form-group {
+        text-align: center;
+        margin-top: 50px;
+    }
+
+    /* Drop-downs and filter button */
+    .form-control {
+        border: 1px solid #66a3a3;
+        border-radius: 4px;
+        padding: 8px;
+        margin-bottom: 15px;
+    }
+
+    .btn {
+        background-color: #66a3a3; /* Blue-green button */
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+        .btn:hover {
+            background-color: #4d8080; /* Darker blue-green on hover */
+        }
+
+    /* Table styling */
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+        .table th {
+            background-color: #338080; /* Blue-green header */
+            color: white;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .table td {
+            padding: 10px;
+            border-bottom: 1px solid #66a3a3;
+        }
+
+        .table tr:nth-child(even) {
+            background-color: #f2f7f2; /* Slightly lighter row color */
+        }
+
+        .table tr:hover {
+            background-color: #cce0e0; /* Blue-green highlight on hover */
+        }
+
+        /* Action links for Edit, Details, Delete */
+        .table td a {
+            color: #338080;
+            text-decoration: none;
+        }
+
+            .table td a:hover {
+                color: #4d8080; /* Darker on hover */
+                text-decoration: underline;
+            }
+</style>
+
 @*<h2>Index</h2>*@
 <div class="text-center" style="margin-bottom:20px">
     <h2>Palette</h2>
