@@ -9,10 +9,10 @@
     Layout = "~/Views/Shared/AdminLayout.cshtml";
 }
 
-<h2>iCare Users</h2>
+<h2>iCare Workers</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary" })
 </p>
 <table class="table">
     <tr>
@@ -47,9 +47,9 @@
                 @Html.DisplayFor(modelItem => item.iCAREWorker.profession)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
-                @Html.ActionLink("Details", "Details", new { id = item.ID }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                @Html.ActionLink("Edit", "Edit", new { id = item.ID }, new { @class = "btn btn-secondary btn-sm mr-2" })
+                @Html.ActionLink("Details", "Details", new { id = item.ID }, new { @class = "btn btn-secondary btn-sm mr-2" })
+                @Html.ActionLink("Delete", "Delete", new { id = item.ID }, new { @class = "btn btn-secondary btn-sm" })
             </td>
         </tr>
     }
