@@ -94,7 +94,7 @@ namespace Group12_iCAREAPP.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,docName,docType,dateOfCreation,drugUsedID,patientID,treatmentDescription,prescription,workerID")] Document document, HttpPostedFileBase docData)
+        /*public ActionResult Create([Bind(Include = "ID,docName,docType,dateOfCreation,drugUsedID,patientID,treatmentDescription,prescription,workerID")] Document document, HttpPostedFileBase docData)
         {
             if (ModelState.IsValid)
             {
@@ -134,6 +134,84 @@ namespace Group12_iCAREAPP.Controllers
             ViewBag.drugUsedID = new SelectList(db.DrugsDictionary, "ID", "name", document.drugUsedID);
             ViewBag.patientID = new SelectList(db.PatientRecord, "ID", "ID", document.patientID);
             ViewBag.workerID = new SelectList(db.iCAREWorker, "ID", "ID", document.workerID);
+            return View(document);
+        }*/
+
+        public ActionResult Create([Bind(Include = "ID,docName,docType,dateOfCreation,drugUsedID,patientID,treatmentDescription,prescription,workerID")] Document document, HttpPostedFileBase docData)
+        {
+            if (ModelState.IsValid)
+            {
+                using (var transaction = db.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        if (docData != null && docData.ContentLength > 0)
+                        {
+                            using (var memoryStream = new MemoryStream())
+                            {
+                                docData.InputStream.CopyTo(memoryStream);
+                                document.docData = memoryStream.ToArray();  // Assign binary data
+                                                                            // document.docType = docData.ContentType;  // Assign file type if required
+                            }
+                        }
+
+                        document.dateOfCreation = DateTime.Now; // Set creation date
+                        db.Document.Add(document);              // Add document to DbSet
+                        db.SaveChanges();                       // Save changes to database
+
+                        // Retrieve metadata for treatment description
+                        var drug = db.DrugsDictionary.SingleOrDefault(d => d.ID == document.drugUsedID);
+                        var worker = db.iCAREWorker.Include(w => w.iCAREUser).SingleOrDefault(w => w.ID == document.workerID);
+                        string drugName = drug != null ? drug.name : "Unknown Drug";
+                        string workerProfession = worker != null ? worker.profession : "Unknown Profession";
+
+                        // Create description content
+                        string descriptionContent = $"New document created for the treatment: Date - " +
+                            $"{(document.dateOfCreation?.ToString("yyyy-MM-dd") ?? "N/A")} - Drug Used: {drugName} - Profession of Worker: {workerProfession}";
+
+                        // Find or create a TreatmentRecord for the patient and worker
+                        var treatmentRecord = db.TreatmentRecord
+                                                .FirstOrDefault(t => t.patientID == document.patientID && t.iCAREWorker.ID == document.workerID);
+
+                        if (treatmentRecord != null)
+                        {
+                            // Append metadata to the existing description
+                            treatmentRecord.description += " | " + descriptionContent;
+                        }
+                        else
+                        {
+                            // Create a new TreatmentRecord if none exists
+                            treatmentRecord = new TreatmentRecord
+                            {
+                                ID = document.patientID + document.workerID,
+                                patientID = document.patientID,
+                                iCAREWorker = worker,
+                                treatmentDate = DateTime.Now,
+                                description = descriptionContent
+                            };
+                            db.TreatmentRecord.Add(treatmentRecord);
+                        }
+
+                        // Save changes to the TreatmentRecord and commit transaction
+                        db.SaveChanges();
+                        transaction.Commit();
+
+                        return RedirectToAction("Index");
+                    }
+                    catch (Exception ex)
+                    {
+                        // Rollback transaction if any error occurs
+                        transaction.Rollback();
+                        ModelState.AddModelError("", "An error occurred while creating the document. Did you include a name?");
+                    }
+                }
+            }
+
+            // Repopulate dropdowns if ModelState is invalid
+            ViewBag.drugUsedID = new SelectList(db.DrugsDictionary, "ID", "name", document.drugUsedID);
+            ViewBag.patientID = new SelectList(db.PatientRecord, "ID", "ID", document.patientID);
+            ViewBag.workerID = new SelectList(db.iCAREWorker, "ID", "ID", document.workerID);
+
             return View(document);
         }
 

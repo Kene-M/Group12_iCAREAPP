@@ -325,6 +325,14 @@ namespace Group12_iCAREAPP.Controllers
                 return RedirectToAction("Index", "PatientRecords");
             }
 
+            // Check if this worker is already assigned to the patient
+            bool isAlreadyAssigned = db.TreatmentRecord.Any(t => t.patientID == patientID && t.iCAREWorker.ID == workerID);
+            if (isAlreadyAssigned)
+            {
+                TempData["Message"] = "Patient could not be assigned: You are already assigned to this patient.";
+                return RedirectToAction("Index", "PatientRecords");
+            }
+
             // Retrieve existing treatment records for the patient
             List<TreatmentRecord> treatments = db.TreatmentRecord
                 .Where(p => p.patientID == patientID)
